@@ -16,6 +16,7 @@ import findIndex from 'lodash/findIndex';
 import orderBy from 'lodash/orderBy';
 import transform from 'lodash/transform';
 import EasyTable from 'reactabular-easy';
+import ReactPerfTool from 'react-perf-tool';
 import * as reactabular from 'reactabular';
 import * as stylesheet from 'stylesheet-helpers';
 
@@ -280,6 +281,7 @@ ReactDOM.render(
       height={80}
       direction="right"
     />
+    {React.Perf ? <ReactPerfTool perf={React.Perf} /> : null}
     <Catalog
       title={title}
       logoSrc="../images/logo.png"
