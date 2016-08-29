@@ -21,6 +21,8 @@ class VirtualizedBody extends React.Component {
     this.updateRowsToRender = this.updateRowsToRender.bind(this);
   }
   componentDidMount() {
+    console.log('body did mount', this.measuredRows); // eslint-disable-line no-console
+
     this.updateRowsToRender();
   }
   getChildContext() {
