@@ -1,13 +1,13 @@
 // Folds children inside root parents
 const packTree = ({
   parent = 'parent'
-} = {}) => rows => {
+} = {}) => (rows) => {
   const ret = [];
   let pack = [];
   let previousParent;
 
-  rows.forEach(row => {
-    if (row[parent]) {
+  rows.forEach((row) => {
+    if (typeof row[parent] !== 'undefined') {
       pack.push(row);
     } else {
       ret.push(row);
@@ -22,7 +22,7 @@ const packTree = ({
     }
   });
 
-  if (pack && previousParent) {
+  if (pack.length && previousParent) {
     previousParent._pack = pack;
   }
 
