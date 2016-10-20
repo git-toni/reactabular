@@ -3,7 +3,8 @@ function selectRow({
   isSelected = (row, selectedRowId) => row.id === selectedRowId, // eslint-disable-line no-shadow
   selectedRowId
 }) {
-  let selectedRow;
+  //let selectedRow;
+  let selectedRows=[];
 
   // Reset selected flags and select the given row
   const newRows = rows.map((row) => {
@@ -12,7 +13,8 @@ function selectRow({
     if (isSelected(row, selectedRowId)) {
       selected = true;
 
-      selectedRow = row;
+      //selectedRow = row;
+      selectedRows.push(row);
     }
 
     return {
@@ -23,7 +25,7 @@ function selectRow({
 
   return {
     rows: newRows,
-    selectedRow
+    selectedRows
   };
 }
 
