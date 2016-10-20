@@ -1,3 +1,18 @@
+6.0.3 / 2016-10-19
+==================
+
+  * Bug fix - Bump peer version ranges to avoid npm warnings.
+
+6.0.0 / 2016-10-14
+==================
+
+  * Breaking - Merge `tree.flatten` with `tree.unpack`. The new signature for `tree.unpack` is `tree.unpack = ({ parentField = 'parent', parent, idField = 'id'}) => (rows) => <unpackedRows>`.
+  * Breaking - Rework API so that all functions except `tree.toggleChildren` work in curry format (`(...) => (rows) => <new rows>`). This way the API is consistent and easy to extend.
+  * Breaking - Expose `childrenField` for `tree.pack` and `tree.unpack`. It defaults to `children`.
+  * Breaking - Make `tree.pack` to work in a recursive manner (packs children within children).
+  * Breaking - Make `tree.search` match against children as well. If children as matched, it will return parents as well.
+  * Feature - Add `tree.getChildren` utilities for getting node children.
+
 5.2.1 / 2016-09-30
 ==================
 

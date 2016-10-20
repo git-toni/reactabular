@@ -1,3 +1,13 @@
+6.0.3 / 2016-10-19
+==================
+
+  * Bug fix - Bump peer version ranges to avoid npm warnings.
+
+6.0.0 / 2016-10-14
+==================
+
+  * Feature - Add `scrollTo(index)` method to `Virtualized.Body` `ref`.
+
 5.0.2 / 2016-09-28
 ==================
 

@@ -11,9 +11,12 @@ If you want to consume something more granular, it's possible to use separate pa
 Even though Lodash range goes to 3, you will need to tweak your build a little to make it work as Reactabular relies on Lodash 4 style imports listed below:
 
 * `import cloneDeep from 'lodash/cloneDeep';`
+* `import find from 'lodash/find';`
 * `import get from 'lodash/get';`
 * `import has from 'lodash/has';`
 * `import isEqual from 'lodash/isEqual';`
+* `import isFunction from 'lodash/isFunction';`
+* `import omit from 'lodash/omit';`
 
 You should alias these imports so that they work in your environment. In Webpack you can achieve this through the [resolve.alias](https://webpack.github.io/docs/configuration.html#resolve-alias) field.
 

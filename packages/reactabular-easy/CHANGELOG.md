@@ -1,3 +1,19 @@
+6.0.3 / 2016-10-19
+==================
+
+  * Bug fix - Bump peer version ranges to avoid npm warnings.
+
+6.0.2 / 2016-10-19
+==================
+
+  * Improvement - Add an example showing how to access `scrollTo`.
+
+6.0.0 / 2016-10-14
+==================
+
+  * Breaking - Expose `idField` and `parentField` `props` for customizing tree field types. Earlier `rowKey` handled `idField` but now it has been separated for clarity.
+  * Breaking - Drop `styles` prop. Use `props` instead.
+
 5.3.0 / 2016-10-05
 ==================
 

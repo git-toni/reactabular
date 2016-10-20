@@ -1,25 +1,27 @@
-A usual scenario is one where we need to show several tables on the same page, where each table displays different data sets (either columns or rows, or both) received asynchronously. Ideally we'd like to re-use
-the same *Reactabular* component. Here is an example use-case that fulfills the following requirements:
+A usual scenario is one where we need to show several tables on the same page, where each table displays different data sets (either columns or rows, or both) received asynchronously. Ideally we'd like to re-use the same *Reactabular* component. Here is an example use-case that fulfills the following requirements:
+
 - Both columns and rows are received/updated asynchronously via props, hence not known beforehand at first render.
 - Multiple instances of the same Reactabular-based component are simultaneously rendered.
 - Columns are configurable as *editable* dynamically.
 - `Container` component manages the data externally.
 
-In this particular case the data is received in this particular formart(or a permutation of it):
+In this particular case the data is received in this particular format (or a permutation of it):
+
 ```javascript
 rows = [{id:'4348efbbb2e0',product:'Apple', company:'Apple Inc.', stock:34772, price:2.56},...{}]
 
 columns = [['product','Product'], ['price','Unit Cost'],['company','Retailer']]
 ```
-Note that each object in `rows` contain more fields than the ones desired to be displayed ( as indicated by `columns` )
 
+Note that each object in `rows` contain more fields than the ones desired to be displayed ( as indicated by `columns`)
 
 ```jsx
 /*
 import React from 'react';
 import cloneDeep from 'lodash/cloneDeep';
 import findIndex from 'lodash/findIndex';
-import { Table, edit } from 'reactabular';
+import { Table } from 'reactabular';
+import * as edit from 'react-edit';
 import uuid from 'uuid';
 
 import { generateRows } from './helpers';

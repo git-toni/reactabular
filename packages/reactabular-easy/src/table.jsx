@@ -46,6 +46,7 @@ class EasyTable extends React.Component {
     const {
       rowKey, query, headerExtra, sortingColumns,
       tableWidth, tableHeight, components,
+      idField, parentField,
       classNames, onRow // eslint-disable-line no-unused-vars
     } = this.props;
     const tableComponents = {
@@ -71,14 +72,14 @@ class EasyTable extends React.Component {
     }
 
     const rows = compose(
-      tree.filter('showingChildren', rowKey),
+      tree.filter('showingChildren'),
       tree.sort({
         columns,
         sortingColumns,
         strategy: sort.strategies.byProperty
       }),
       highlight.highlighter({ columns, matches: search.matches, query }),
-      tree.search({ columns, query }),
+      tree.search({ columns, query, idField, parentField }),
       resolve.resolve({
         columns,
         method: ({ rowData, rowIndex, column }) => resolve.byFunction('cell.resolve')({
@@ -137,11 +138,10 @@ class EasyTable extends React.Component {
       </Table.Provider>
     );
   }
-  bindColumns({ columns, styles, props }) {
+  bindColumns({ columns, props }) {
     const resizable = resizableColumn({
       onDrag: this.props.onDragColumn,
       props: props.resize,
-      styles: styles.resize,
       parent: this.props.window
     });
 
@@ -157,8 +157,7 @@ class EasyTable extends React.Component {
         this.props.onSort(sortingColumns);
       },
       strategy: sort.strategies.byProperty,
-      props: props.sort,
-      styles: styles.sort
+      props: props.sort
     });
     const resetable = sort.reset({
       event: 'onDoubleClick',
@@ -227,7 +226,8 @@ class EasyTable extends React.Component {
           getShowingChildren: ({ rowData }) => rowData.showingChildren,
           toggleShowingChildren: this.props.onToggleShowingChildren,
           // Without this it will perform checks against default id
-          id: this.props.rowKey,
+          idField: this.props.idField,
+          parentField: this.props.parentField,
           props: this.props.toggleChildrenProps
         }));
       }

@@ -1,5 +1,6 @@
 export { default as filter } from './filter';
 export { default as getLevel } from './get-level';
+export { default as getChildren } from './get-children';
 export { default as getParents } from './get-parents';
 export { default as hasChildren } from './has-children';
 export { default as pack } from './pack';
@@ -9,4 +10,3 @@ export { default as search } from './search';
 export { default as toggleChildren } from './toggle-children';
 export { default as collapseAll } from './collapse-all';
 export { default as expandAll } from './expand-all';
-export { default as flatten } from './flatten';

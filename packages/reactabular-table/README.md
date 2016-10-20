@@ -89,8 +89,6 @@ Here `VisibilityToggles` injects an additional row for the filter controls. An a
 </Table.Provider>
 ```
 
-> `ColumnFilters` isn't included in the standard distribution. You can [find it at the project repository](https://github.com/reactabular/reactabular/blob/master/docs/helpers/ColumnFilters.jsx).
-
 ## `Table.Body`
 
 `Table.Body` renders table `rows` within a `Table.Provider` context. It accepts either an array of objects or an array of arrays (see the [Excel example](/examples/excel)). In the former case you should define a `rowKey`. This allows React to render in a more performant way.
@@ -183,7 +181,6 @@ class CustomTable extends React.Component {
   }
   onRow(row, { rowIndex, rowKey }) {
     return {
-      className: rowIndex % 2 ? 'odd-row' : 'even-row',
       onClick: () => console.log('clicked row', row)
     };
   }

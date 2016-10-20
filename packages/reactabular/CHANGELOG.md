@@ -1,5 +1,32 @@
-6.0.0 / 2016-xx-xx
+6.0.3 / 2016-10-19
 ==================
+
+## reactabular-easy
+
+  * Bug fix - Bump peer version ranges to avoid npm warnings.
+
+## reactabular-tree
+
+  * Bug fix - Bump peer version ranges to avoid npm warnings.
+
+## reactabular-virtualized
+
+  * Bug fix - Bump peer version ranges to avoid npm warnings.
+
+6.0.2 / 2016-10-19
+==================
+
+## reactabular-easy
+
+  * Improvement - Add an example showing how to access `scrollTo`.
+
+6.0.0 / 2016-10-14
+==================
+
+## reactabular-easy
+
+  * Breaking - Expose `idField` and `parentField` `props` for customizing tree field types. Earlier `rowKey` handled `idField` but now it has been separated for clarity.
+  * Breaking - Drop `styles` prop. Use `props` instead.
 
 ## reactabular-search
 
@@ -9,6 +36,32 @@
 ## reactabular-search-columns
 
   * Bug fix - Make toggling behavior rely on `property` over `id`. Now the behavior is more consistent with filtered sets. #216
+  * Bug fix - If `column.property` is not set, generate key based on column index instead.
+
+## reactabular-resizable
+
+  * Breaking - Drop `styles` prop. Use `props` instead.
+
+## reactabular-sort
+
+  * Breaking - Drop `styles` prop. Use `props` instead.
+
+## reactabular-table
+
+  * Improvement - Allow table body and body row `shouldComponentUpdate` to be overridden.
+
+## reactabular-tree
+
+  * Breaking - Merge `tree.flatten` with `tree.unpack`. The new signature for `tree.unpack` is `tree.unpack = ({ parentField = 'parent', parent, idField = 'id'}) => (rows) => <unpackedRows>`.
+  * Breaking - Rework API so that all functions except `tree.toggleChildren` work in curry format (`(...) => (rows) => <new rows>`). This way the API is consistent and easy to extend.
+  * Breaking - Expose `childrenField` for `tree.pack` and `tree.unpack`. It defaults to `children`.
+  * Breaking - Make `tree.pack` to work in a recursive manner (packs children within children).
+  * Breaking - Make `tree.search` match against children as well. If children as matched, it will return parents as well.
+  * Feature - Add `tree.getChildren` utilities for getting node children.
+
+## reactabular-virtualized
+
+  * Feature - Add `scrollTo(index)` method to `Virtualized.Body` `ref`.
 
 5.3.0 / 2016-10-05
 ==================

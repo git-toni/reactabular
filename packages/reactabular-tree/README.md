@@ -31,11 +31,11 @@ If there's a `parent` relation, the children must follow their parent right afte
 
 ### Transformations
 
-**`tree.collapseAll = (rows, property = 'showingChildren') => <collapsedRows>`**
+**`tree.collapseAll = ({ property = 'showingChildren' }) => (rows) => <collapsedRows>`**
 
 Collapses rows by setting `showingChildren` of each row to `false`.
 
-**`tree.expandAll = (rows, property = 'showingChildren') => <expandedRows>`**
+**`tree.expandAll = ({ property = 'showingChildren' }) => (rows) => <expandedRows>`**
 
 Expands rows by setting `showingChildren` of each row to `true`.
 
@@ -43,47 +43,51 @@ Expands rows by setting `showingChildren` of each row to `true`.
 
 Filters the given rows using `fieldName`. This is handy if you want only rows that are visible assuming visibility logic has been defined.
 
-**`tree.flatten = ({ tree, parentField = 'parent', parent, idField = 'id'}) => <flattenedRows>`**
-
-Flattens a nested tree structure into a flat one compatible with the algorithms.
-
 ### Queries
 
-**`tree.getLevel = ({ rows, index, parent = 'parent' }) => <level>`**
+**`tree.getLevel = ({ index, parentField = 'parent' }) => (rows) => <level>`**
 
 Returns the nesting level of the row at the given `index` within `rows`.
 
-**`tree.getParents = ({ rows, index, parent = 'parent' }) => [<parent>]`**
+**`tree.getChildren = ({ index, idField = 'id', parentField = 'parent' }) => (rows) => [<parent>]`**
+
+Returns children based on given `rows` and `index`.
+
+**`tree.getParents = ({ index, parentField = 'parent' }) => (rows) => [<parent>]`**
 
 Returns parents based on given `rows` and `index`.
 
-**`tree.hasChildren = ({ rows, index, id = 'id', parent = 'parent '}) => <boolean>`**
+**`tree.hasChildren = ({ index, idField = 'id', parentField = 'parent '}) => (rows) => <boolean>`**
 
 Returns a boolean based on whether or not the row at the given `index` has children.
 
-**`tree.search = ({ columns, query }) => (rows) => <searchedRows>`**
+**`tree.search = ({ columns, query, idField = 'id', parentField = 'parent' }) => (rows) => <searchedRows>`**
 
-Allows you to search against a tree structure (packs/unpacks internally).
+Searches against a tree structure while matching against children too. If children are found, associated parents are returned as well.
+
+> This depends on [resolve.index](http://reactabular.js.org/#/data/resolving)!
 
 **`tree.sort = ({ columns, sortingColumns, strategy }) => (rows) => <sortedRows>`**
 
-Allows you to sort a tree (packs/unpacks internally).
+Sorts a tree (packs/unpacks internally to maintain root level sorting).
 
 ### Packing
 
-**`tree.pack = ({ parent = 'parent' }) => (rows) => <packedRows>`**
+**`tree.pack = ({ parentField = 'parent', childrenField = 'children', idField = 'id' }) => (rows) => <packedRows>`**
 
 Packs children inside root level nodes. This is useful with sorting and filtering.
 
-**`tree.unpack = (rows) => <unpackedRows>`**
+**`tree.unpack = ({ parentField = 'parent', childrenField = 'children', idField = 'id', parent }) => (rows) => <unpackedRows>`**
 
 Unpacks children from root level nodes. This is useful with sorting and filtering.
 
 ### UI
 
-**`tree.toggleChildren = ({ getRows, getShowingChildren, toggleShowingChildren, props, id, parent }) => (value, extra) => <React element>`**
+**`tree.toggleChildren = ({ getRows, getShowingChildren, toggleShowingChildren, props, idField, parentField }) => (value, extra) => <React element>`**
 
 Makes it possible to toggle node children through a user interface.
+
+> This depends on [resolve.index](http://reactabular.js.org/#/data/resolving)!
 
 ## Example
 
@@ -252,12 +256,12 @@ class TreeTable extends React.Component {
   }
   onExpandAll() {
     this.setState({
-      rows: tree.expandAll(this.state.rows)
+      rows: tree.expandAll()(this.state.rows)
     });
   }
   onCollapseAll() {
     this.setState({
-      rows: tree.collapseAll(this.state.rows)
+      rows: tree.collapseAll()(this.state.rows)
     });
   }
   onToggleColumn(columnIndex) {

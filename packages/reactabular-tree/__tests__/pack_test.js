@@ -31,9 +31,8 @@ describe('tree.pack', function () {
       {
         id: 0,
         foo: 'bar',
-        _pack: [
+        children: [
           {
-            parent: 0,
             foo: 'foo'
           }
         ]
@@ -41,6 +40,21 @@ describe('tree.pack', function () {
     ];
 
     expect(pack()(given)).to.deep.equal(expected);
+  });
+
+  it('works with null parent', function () {
+    const given = [
+      {
+        id: 0,
+        foo: 'bar'
+      },
+      {
+        parent: null,
+        foo: 'foo'
+      }
+    ];
+
+    expect(pack()(given)).to.deep.equal(given);
   });
 
   it('works with sibling children', function () {
@@ -64,15 +78,13 @@ describe('tree.pack', function () {
       {
         id: 0,
         foo: 'bar',
-        _pack: [
+        children: [
           {
             id: 1,
-            parent: 0,
             foo: 'foo'
           },
           {
             id: 2,
-            parent: 0,
             foo: 'barbar'
           }
         ]
@@ -97,33 +109,44 @@ describe('tree.pack', function () {
         id: 2,
         parent: 1,
         foo: 'barbar'
+      },
+      {
+        id: 3,
+        parent: 1,
+        foo: 'barbarbar'
       }
     ];
-    // TODO: this could be made recursive
     const expected = [
       {
         id: 0,
         foo: 'bar',
-        _pack: [
+        children: [
           {
             id: 1,
-            parent: 0,
-            foo: 'foo'
-          },
-          {
-            id: 2,
-            parent: 1,
-            foo: 'barbar'
+            foo: 'foo',
+            children: [
+              {
+                id: 2,
+                foo: 'barbar'
+              },
+              {
+                id: 3,
+                foo: 'barbarbar'
+              }
+            ]
           }
         ]
       }
     ];
 
     expect(pack()(given)).to.deep.equal(expected);
+
+    // Should be immutable
+    expect(pack()(given)).to.deep.equal(expected);
   });
 
   it('allows parent field to be customized', function () {
-    const property = 'demo';
+    const parentField = 'demo';
     const given = [
       {
         id: 0,
@@ -131,12 +154,12 @@ describe('tree.pack', function () {
       },
       {
         id: 1,
-        [property]: 0,
+        [parentField]: 0,
         foo: 'foo'
       },
       {
         id: 2,
-        [property]: 1,
+        [parentField]: 1,
         foo: 'barbar'
       }
     ];
@@ -145,21 +168,65 @@ describe('tree.pack', function () {
       {
         id: 0,
         foo: 'bar',
-        _pack: [
+        children: [
           {
             id: 1,
-            [property]: 0,
-            foo: 'foo'
-          },
-          {
-            id: 2,
-            [property]: 1,
-            foo: 'barbar'
+            foo: 'foo',
+            children: [
+              {
+                id: 2,
+                foo: 'barbar'
+              }
+            ]
           }
         ]
       }
     ];
 
-    expect(pack({ parent: property })(given)).to.deep.equal(expected);
+    expect(pack({ parentField })(given)).to.deep.equal(expected);
+  });
+
+  it('allows children field to be customized', function () {
+    const childrenField = 'demo';
+    const given = [
+      {
+        id: 0,
+        foo: 'bar'
+      },
+      {
+        id: 1,
+        parent: 0,
+        foo: 'foo'
+      },
+      {
+        id: 2,
+        parent: 1,
+        foo: 'barbar'
+      }
+    ];
+    const expected = [
+      {
+        id: 0,
+        foo: 'bar',
+        [childrenField]: [
+          {
+            id: 1,
+            foo: 'foo',
+            [childrenField]: [
+              {
+                id: 2,
+                foo: 'barbar'
+              }
+            ]
+          }
+        ]
+      }
+    ];
+
+    expect(pack({ childrenField })(given)).to.deep.equal(expected);
+  });
+
+  it('returns an empty array with invalid input', function () {
+    expect(pack()('foobar')).to.deep.equal([]);
   });
 });

@@ -83,9 +83,11 @@ export default ({ title, pages }) => {
             pages={pages}
             imports={documentationImports}
             specimens={{
+              bash: props => <CodeSpecimen {...props} lang="bash" />,
               css: props => <CodeSpecimen {...props} lang="css" />,
               javascript: props => <CodeSpecimen {...props} lang="javascript" />,
               js: props => <CodeSpecimen {...props} lang="javascript" />,
+              json: props => <CodeSpecimen {...props} lang="json" />,
               jsx: props => <ReactSpecimen {...props} />
             }}
           />

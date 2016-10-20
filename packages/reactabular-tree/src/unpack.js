@@ -1,14 +1,36 @@
-// Extracts children from rows
-function unpackTree(rows = []) {
-  let ret = [];
+import omit from 'lodash/omit';
 
-  rows.forEach((row) => {
-    const { _pack, ...rest } = row;
+const unpack = ({
+  parentField = 'parent',
+  childrenField = 'children',
+  idField = 'id',
+  parent
+} = {}) => (rows) => {
+  if (!Array.isArray(rows)) {
+    return [];
+  }
 
-    ret = ret.concat([rest]).concat(_pack);
-  });
+  if (!rows.length) {
+    return rows;
+  }
 
-  return ret.filter(a => a);
-}
+  return [].concat(
+    ...rows.map((node) => {
+      const children = node[childrenField];
+      const d = parent ? {
+        ...omit(node, childrenField),
+        [parentField]: parent
+      } : omit(node, childrenField);
 
-export default unpackTree;
+      return [d].concat(
+        unpack({
+          parentField,
+          parent: d[idField],
+          idField
+        })(children)
+      );
+    })
+  );
+};
+
+export default unpack;

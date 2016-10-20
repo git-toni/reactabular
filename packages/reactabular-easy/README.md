@@ -17,6 +17,7 @@ import VisibilityToggles from 'reactabular-visibility-toggles';
 import HTML5Backend from 'react-dnd-html5-backend';
 import { DragDropContext } from 'react-dnd';
 import cloneDeep from 'lodash/cloneDeep';
+import findIndex from 'lodash/findIndex';
 
 import {
   generateParents, generateRows
@@ -67,6 +68,7 @@ class EasyDemo extends React.Component {
       sortingColumns: {},
       query: {}
     };
+    this.table = null;
 
     this.onDragColumn = this.onDragColumn.bind(this);
     this.onToggleColumn = this.onToggleColumn.bind(this);
@@ -182,6 +184,16 @@ class EasyDemo extends React.Component {
           onToggleColumn={this.onToggleColumn}
         />
 
+        <div className="scroll-container">
+          <label>Scroll to index: </label>
+          <div>
+            <input
+              type="text"
+              onChange={e => this.table.tableBody.scrollTo(e.target.value)}
+            />
+          </div>
+        </div>
+
         <div className="search-container">
           <span>Search</span>
           <Search
@@ -193,6 +205,9 @@ class EasyDemo extends React.Component {
         </div>
 
         <EasyTable
+          ref={table => {
+            this.table = table
+          }}
           rows={rows}
           rowKey="id"
           sortingColumns={sortingColumns}
@@ -213,6 +228,10 @@ class EasyDemo extends React.Component {
             />
           }
           toggleChildrenProps={{ className: 'toggle-children' }}
+
+          idField="id"
+          parentField="parent"
+
           onDragColumn={this.onDragColumn}
           onMoveColumns={this.onMoveColumns}
           onSelectRow={this.onSelectRow}
@@ -280,7 +299,7 @@ class EasyDemo extends React.Component {
 
 ## Styling
 
-It is possible to pass custom `classNames` and `styles` as listed below:
+It is possible to pass custom `classNames` and `props` as listed below:
 
 ```js
 classNames: {
@@ -302,9 +321,13 @@ classNames: {
     */
   }
 },
-styles: {
+props: {
   resize: {
-    container: {},
+    container: {
+      style: {
+        color: 'red'
+      }
+    },
     value: {},
     handle: {}
   },
