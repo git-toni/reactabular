@@ -10,11 +10,17 @@ const myrows = [
 ];
 
 describe('select.selectRow', function () {
-  it('returns nothing when not matching', function () {
+  it('returns matching row by Id', function () {
     const myId = 12;
     const expecSel = [
       { id: 12, product: 'grape', company: 'Grapesoft', price: 22.1, stock: 18 }
     ];
+    const result = selectRow({ rows: myrows, selectedRowId: myId });
+    expect(result.selectedRows).to.deep.eq(expecSel);
+  });
+  it('returns nothing when not matching', function () {
+    const myId = 1992;
+    const expecSel = [];
     const result = selectRow({ rows: myrows, selectedRowId: myId });
     expect(result.selectedRows).to.deep.eq(expecSel);
   });
